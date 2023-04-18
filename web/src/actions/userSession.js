@@ -11,6 +11,7 @@ import {
   DELETE_ACCOUNT_SUCCESS,
   VALIDATE_COUPON_SUCCESS,
   VALIDATE_COUPON_FAILED,
+  SET_KEPLR_SESSION,
 } from "../constants/actionTypes";
 import { USER_SESSION_TOKEN_NAME } from "../constants/userSession";
 import {
@@ -92,6 +93,19 @@ export const fetchUserSession = postPreferences => async dispatch => {
     }
   } catch (error) {
     dispatch({ type: SET_USER_SESSION_FAILED, payload: { error } });
+  }
+};
+
+export const setKeplrSession = (authenticated) => async dispatch => {
+  try {
+    dispatch({
+      type: SET_KEPLR_SESSION,
+      payload: {
+        authenticated: authenticated
+      }
+    });
+  } catch (error) {
+    dispatch({type: LOGIN_FAILED, payload: { error } });
   }
 };
 
