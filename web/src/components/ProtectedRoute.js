@@ -9,6 +9,24 @@ const ProtectedRoute = ({ component: Component, ...rest }) => {
   const dispatch = useDispatch();
   const userSession = useSelector(state => state.userSession);
 
+  window.onload = async () => {
+    try {
+      if (!window.keplr) {
+        toast.error(
+          `Please install Keplr extension to connect your wallet.`
+        );
+      } else {
+        await window.keplr.enable("cosmoshub-4");
+        const offlineSigner = window.getOfflineSigner("cosmoshub-4");
+        const accounts = await offlineSigner.getAccounts();
+        const address = accounts[0].address;
+        console.log(address)
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
   useEffect(() => {
     const { activeKeycloakSession } = userSession;
     const keycloak = new Keycloak("/keycloak.json");
