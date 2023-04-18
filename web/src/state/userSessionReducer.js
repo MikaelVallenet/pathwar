@@ -6,6 +6,7 @@ import {
   VALIDATE_COUPON_SUCCESS,
   VALIDATE_CHALLENGE_SUCCESS,
   BUY_CHALLENGE_SUCCESS,
+  SET_KEPLR_SESSION,
 } from "../constants/actionTypes";
 
 const initialState = {
@@ -52,6 +53,13 @@ export default function userSessionReducer(
         activeKeycloakSession: action.payload.keycloakInstance,
         isAuthenticated: action.payload.authenticated,
       };
+
+    case SET_KEPLR_SESSION:
+      return {
+        ...state,
+        fetching: false,
+        isAuthenticated: action.payload.authenticated,
+      }
 
     case SET_USER_SESSION:
       return {
