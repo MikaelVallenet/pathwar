@@ -730,6 +730,11 @@ definitions:
     type: object
   apiUserDeleteAccountOutput:
     type: object
+  apiUserGetNonceOutput:
+    properties:
+      nonce:
+        type: string
+    type: object
   apiUserGetSessionOutput:
     properties:
       claims:
@@ -775,6 +780,18 @@ definitions:
         type: string
     type: object
   apiUserSetPreferencesOutput:
+    type: object
+  apiUserSignatureInput:
+    properties:
+      address:
+        type: string
+      signature:
+        type: string
+    type: object
+  apiUserSignatureOutput:
+    properties:
+      token:
+        type: string
     type: object
   apiVoid:
     example: {}
@@ -3390,6 +3407,33 @@ paths:
             $ref: '#/definitions/runtimeError'
       tags:
       - Service
+  /user/nonce:
+    get:
+      operationId: Service_UserGetNonce
+      parameters:
+      - in: query
+        name: address
+        required: false
+        type: string
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/apiUserGetNonceOutput'
+        "403":
+          description: Returned when the user does not have permission to access the resource.
+          schema: {}
+        "404":
+          description: Returned when the resource does not exist.
+          schema:
+            format: string
+            type: string
+        default:
+          description: An unexpected error response
+          schema:
+            $ref: '#/definitions/runtimeError'
+      tags:
+      - Service
   /user/preferences:
     post:
       operationId: Service_UserSetPreferences
@@ -3426,6 +3470,34 @@ paths:
           description: A successful response.
           schema:
             $ref: '#/definitions/apiUserGetSessionOutput'
+        "403":
+          description: Returned when the user does not have permission to access the resource.
+          schema: {}
+        "404":
+          description: Returned when the resource does not exist.
+          schema:
+            format: string
+            type: string
+        default:
+          description: An unexpected error response
+          schema:
+            $ref: '#/definitions/runtimeError'
+      tags:
+      - Service
+  /user/verify-signed-nonce:
+    post:
+      operationId: Service_UserSignature
+      parameters:
+      - in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/apiUserSignatureInput'
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/apiUserSignatureOutput'
         "403":
           description: Returned when the user does not have permission to access the resource.
           schema: {}
