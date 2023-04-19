@@ -1813,6 +1813,8 @@ definitions:
         type: string
       locale:
         type: string
+      nonce:
+        type: string
       notifications:
         items:
           $ref: '#/definitions/dbNotification'
