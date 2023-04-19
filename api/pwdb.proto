@@ -235,6 +235,7 @@ message User {
   string deletion_reason = 106;
   DeletionStatus deletion_status = 107;
   string slug = 108;
+  string nonce = 109;
 
   repeated TeamMember team_memberships = 200 [(gogoproto.moretags) = "gorm:\"PRELOAD:false\""];
   repeated Notification notifications = 201 [(gogoproto.moretags) = "gorm:\"PRELOAD:false\""];

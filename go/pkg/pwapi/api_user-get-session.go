@@ -32,7 +32,7 @@ func (svc *service) UserGetSession(ctx context.Context, _ *UserGetSession_Input)
 		return nil, errcode.ErrGetOAuthUser.Wrap(err)
 	}
 
-	// new user
+	// new user: register
 	if pwdb.IsRecordNotFoundError(err) {
 		output.IsNewUser = true
 		if _, err = svc.newUserFromClaims(output.Claims); err != nil {
