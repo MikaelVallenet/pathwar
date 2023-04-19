@@ -21,6 +21,8 @@ service Service {
   //
 
   rpc UserGetSession(UserGetSession.Input) returns (UserGetSession.Output) { option (google.api.http) = {get: "/user/session"}; };
+  rpc UserGetNonce(UserGetNonce.Input) returns (UserGetNonce.Output) { option (google.api.http) = {get: "/user/nonce"}; };
+  rpc UserSignature(UserSignature.Input) returns (UserSignature.Output) { option (google.api.http) = {post: "/user/verify-signed-nonce"; body: "*"}; };
   rpc UserSetPreferences(UserSetPreferences.Input) returns (UserSetPreferences.Output) { option (google.api.http) = {post: "/user/preferences"; body: "*"}; };
   rpc UserDeleteAccount(UserDeleteAccount.Input) returns (UserDeleteAccount.Output) { option (google.api.http) = {post: "/user/delete-account"; body: "*"}; };
 
@@ -601,6 +603,25 @@ message UserGetSession {
     repeated pathwar.db.Organization organizations = 6;
     repeated pathwar.db.OrganizationInvite organization_invites = 7;
     repeated pathwar.db.TeamInvite team_invites = 8;
+  }
+}
+
+message UserGetNonce {
+  message Input {
+    string address = 1;
+  }
+  message Output {
+    string nonce = 1;
+  }
+}
+
+message UserSignature {
+  message Input {
+    string address = 1;
+    string signature = 2;
+  }
+  message Output {
+    string token = 1;
   }
 }
 
